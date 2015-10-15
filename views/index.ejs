@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="buddyApp">
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="angular/angular.js"></script>
+    <script src="angular-animate/angular-animate.js"></script>
+    <script src="javascripts/service.js"></script>
+  </head>
+  <body ng-controller="buddyController">
+    <div class="all">
+      <div style="margin-bottom: 10px;text-align: right">
+        <span style="color: black">sorted by:</span>
+        <select id="types" ng-options="type for type in types" ng-model="sort">
+          <option value=""></option>
+        </select>
+        <input type="search" ng-model="search" id="search" results=5>
+      </div>
+
+      <div class="item" ng-repeat="buddy in buddies | filter:search | orderBy:sort">
+        <div class="baseInfo" ng-click="buddy.detail = !buddy.detail">
+          <div><span class="left"></span><span>{{buddy.username}}</span></div>
+          <div><span>{{buddy.firstName}} {{buddy.lastName}}</span><span ng-class="buddy.status">{{buddy.status}}</span></div>
+        </div>
+        <div class="moreInfo" ng-show="buddy.detail">
+          <div style="color:#0fc0f9"><span ng-if="buddy.lastSeen">last seen at </span><span>{{buddy.lastSeen}}</span></div>
+          <div><span class="left">{{buddy.email}}</span><span>{{buddy.birthday}}</span></div>
+          <hr>
+          <div><span>{{buddy.bio}}</span></div>
+        </div>
+        <div class="icon">
+          <a ng-click="delete(buddy)" title="delete"><img src="images/delete.png"></a>
+          <a ng-click="prioritize(buddy)" title="prioritize"><img src="images/arrow-up.png"></a>
+        </div>
+      </div>
+      <div><a><img src="images/add.png" width="40" height="40" ng-click="showDialog()"></a></div>
+    </div>
+
+    <dialog id="addBuddy">
+      <form name="registerForm" novalidate ng-submit="add(registerForm.$valid,$event,registerForm)">
+        <div>
+          <input type="text" name="username" placeholder="username" class="signup" required ng-model="user.username"><small>*</small>
+          <div ng-show="registerForm.$submitted || registerForm.username.$dirty">
+            <small ng-show="registerForm.username.$error.required">Username is required</small>
+          </div>
+        </div>
+        <div>
+          <input type="text" name="firstName" placeholder="First Name" class="signup" required pattern="[a-zA-Z]{0,50}" ng-model="user.firstName" title="only letters"><small>*</small>
+          <div ng-show="registerForm.$submitted || registerForm.firstName.$dirty">
+            <small ng-show="registerForm.firstName.$error.required">First Name is required</small>
+            <small ng-show="registerForm.firstName.$error.pattern">Max length 50, letters only</small>
+          </div>
+        </div>
+        <div>
+          <input type="text" name="lastName" placeholder="Last Name" class="signup" ng-model="user.lastName">
+        </div>
+        <div>
+          <input type="email" name="email" placeholder="email" class="signup" required ng-model="user.email" ng-model-options="{updateOn:'blur'}"><small>*</small>
+          <div ng-show="registerForm.$submitted || registerForm.email.$dirty">
+            <small ng-show="registerForm.email.$error.required">Email is required</small>
+            <small ng-show="registerForm.email.$error.email">This is not a valid email</small>
+          </div>
+        </div>
+        <div>
+          <input type="text" name="birthday" placeholder="birthday" class="signup" onfocus="this.type='date'" required ng-model="user.birthday"><small>*</small>
+          <div ng-show="registerForm.$submitted || registerForm.birthday.$dirty" class="error">
+            <small ng-show="registerForm.birthday.$error.required">Birthday is required</small>
+          </div>
+        </div>
+        <div>
+          <textarea placeholder="bio" ng-model="user.bio"></textarea>
+        </div>
+        <div id="button">
+          <button class="clear" onfocus="this.blur()" ng-click="close($event,registerForm)">Cancel</button>
+          <button type="submit" class="submit" onfocus="this.blur()" >Add</button>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>
