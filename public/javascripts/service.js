@@ -25,10 +25,17 @@ myApp.controller('buddyController',function($scope){
     };
     //delete function
     $scope.delete = function(obj){
-        if(confirm('Do you really want to delete this buddy?')){
+        document.getElementById('deleteBuddy').showModal();
+        //confirm to delete buddy
+        $scope.confirm = function(){
+            document.getElementById('deleteBuddy').close();
             var index = $scope.buddies.indexOf(obj);
             $scope.buddies.splice(index,1);
-        }
+        };
+    };
+    //cancel deleting buddy
+    $scope.cancel = function(){
+        document.getElementById('deleteBuddy').close();
     };
     //show add buddy dialog
     $scope.showDialog = function(){
