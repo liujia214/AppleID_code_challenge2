@@ -8,8 +8,12 @@
     <script src="javascripts/service.js"></script>
   </head>
   <body ng-controller="buddyController">
+
+    <!--buddy list start-->
     <div class="all">
-      <div style="margin-bottom: 10px;text-align: right">
+
+      <!--sort and search-->
+      <div class="marginbottom">
         <span style="color: black">sorted by:</span>
         <select id="types" ng-options="type for type in types" ng-model="sort">
           <option value=""></option>
@@ -18,24 +22,30 @@
       </div>
 
       <div class="item" ng-repeat="buddy in buddies | filter:search | orderBy:sort">
+        <!--buddy basic info-->
         <div class="baseInfo" ng-click="buddy.detail = !buddy.detail">
           <div><span class="left"></span><span>{{buddy.username}}</span></div>
           <div><span>{{buddy.firstName}} {{buddy.lastName}}</span><span ng-class="buddy.status">{{buddy.status}}</span></div>
         </div>
+        <!--buddy detailed info-->
         <div class="moreInfo" ng-show="buddy.detail">
           <div style="color:#0fc0f9"><span ng-if="buddy.lastSeen">last seen at </span><span>{{buddy.lastSeen}}</span></div>
           <div><span class="left">{{buddy.email}}</span><span>{{buddy.birthday}}</span></div>
           <hr>
           <div><span>{{buddy.bio}}</span></div>
         </div>
+        <!--delete and prioritize icon-->
         <div class="icon">
           <a ng-click="delete(buddy)" title="delete"><img src="images/delete.png"></a>
           <a ng-click="prioritize(buddy)" title="prioritize"><img src="images/arrow-up.png"></a>
         </div>
       </div>
+      <!--add button-->
       <div><a><img src="images/add.png" width="40" height="40" ng-click="showDialog()"></a></div>
     </div>
+    <!--buddy list start-->
 
+    <!--add buddy dialog start-->
     <dialog id="addBuddy">
       <form name="registerForm" novalidate ng-submit="add(registerForm.$valid,$event,registerForm)">
         <div>
@@ -76,5 +86,6 @@
         </div>
       </form>
     </dialog>
+    <!--add buddy dialog end-->
   </body>
 </html>

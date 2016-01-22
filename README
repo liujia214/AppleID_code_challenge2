@@ -3,3 +3,6 @@ Heroku address: https://buddylistshow.herokuapp.com/
 1. clone repository
 2. npm install
 3. run server
+
+main page: views/index.ejs
+service logic page: public/javascripts/service.js

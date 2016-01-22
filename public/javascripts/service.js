@@ -5,6 +5,7 @@ var myApp = angular.module('buddyApp',['ngAnimate']);
 myApp.controller('buddyController',function($scope){
     $scope.master = {};
     $scope.types = ['username','firstName','lastName','status','email','birthday'];
+    //mock data
     $scope.buddies = [{username:'Amy',firstName:'Jia',lastName:'Liu',status:'available',
         email:'amy@gmail.com',birthday:'12/04/1988',bio:'Jia is a student in Beijingjiaotong University'},
         {username:'Lei',firstName:'Lei',lastName:'Liu',status:'busy',
@@ -16,20 +17,24 @@ myApp.controller('buddyController',function($scope){
         {username:'Natalie',firstName:'Natalie',lastName:'Park',status:'available',
             email:'natalie@gmail.com',birthday:'12/04/1988',bio:'Natalie is a good girl'}];
 
+    //prioritize function
     $scope.prioritize = function(obj){
         var index = $scope.buddies.indexOf(obj);
         $scope.buddies.splice(index,1);
         $scope.buddies.unshift(obj);
     };
+    //delete function
     $scope.delete = function(obj){
         if(confirm('Do you really want to delete this buddy?')){
             var index = $scope.buddies.indexOf(obj);
             $scope.buddies.splice(index,1);
         }
     };
+    //show add buddy dialog
     $scope.showDialog = function(){
         document.getElementById('addBuddy').showModal();
     };
+    //cancel add buddy dialog
     $scope.close = function(event,form){
         document.getElementById('addBuddy').close();
         event.preventDefault();
@@ -42,6 +47,7 @@ myApp.controller('buddyController',function($scope){
         $scope.user.firstName = '';
         $scope.user.email = '';
     };
+    //confirm to add buddy
     $scope.add = function(valid,event,form){
         if(valid){
             $scope.buddies.push($scope.user);
